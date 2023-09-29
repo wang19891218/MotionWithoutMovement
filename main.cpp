@@ -1016,8 +1016,7 @@ int main(int argc, char **argv)
 {
     {
 //    Mat mc=imread("f:/lib/einstein.pgm",CV_LOAD_IMAGE_GRAYSCALE),dst1,dst2;
-    // Assert file exist before imread
-    Mat mc=imread("./data/lena.jpg",cv::IMREAD_GRAYSCALE);
+    Mat mc=imread("f:/lib/opencv/samples/data/lena.jpg",cv::IMREAD_GRAYSCALE);
 /*    mc = Mat::zeros(512,512,CV_8SC1);
     for (int i = 0; i < 512; i++)
     {

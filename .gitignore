@@ -1,5 +1,6 @@
 # Ignore CMake cache files
 *.cmake
+
 # CMake build directory (if it's at the root of your project)
 /CMakeFiles/
 /CMakeScripts/
@@ -8,6 +9,7 @@
 /CMakeDownload/
 
 # Compiled binary files (e.g., executables)
+SteerableFilter
 *.exe
 *.out
 *.so
