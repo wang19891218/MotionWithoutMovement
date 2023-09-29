@@ -1,0 +1,44 @@
+# Ignore CMake cache files
+*.cmake
+# CMake build directory (if it's at the root of your project)
+/CMakeFiles/
+/CMakeScripts/
+/CMakeCache.txt
+/CMakeCache/
+/CMakeDownload/
+
+# Compiled binary files (e.g., executables)
+*.exe
+*.out
+*.so
+*.dll
+*.dylib
+
+# Object files and directories
+CMakeFiles/
+CMakeScripts/
+CMakeTmp/
+CMakeTmpCMakeTmp/
+
+# Visual Studio Code settings (if you use VS Code)
+.vscode/
+
+# JetBrains CLion settings (if you use CLion)
+.idea/
+
+# Text editor backup files (e.g., Vim, Emacs, Sublime Text)
+*~
+*.swp
+*.swo
+
+# Ignore any user-specific CMake settings
+CMakeUserPresets.json
+
+# Ignore any generated documentation or logs
+/doc/
+/logs/
+
+# Ignore the generated build artifacts
+/build/
+/bin/
+

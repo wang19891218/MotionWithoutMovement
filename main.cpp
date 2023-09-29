@@ -1,5 +1,6 @@
 #include "opencv2/opencv.hpp"
 #include <iostream>
+#include <filesystem>
 #include <strstream>
 #include <fstream>
 #include <iomanip>
@@ -9,7 +10,7 @@
 #include "iirfilter.hpp"
 
 
-/* The design and use of steerable filters. IEEE Transactions on Pattern analysis and machine intelligence 13 (9). pp. 891–906.  */
+/* The design and use of steerable filters. IEEE Transactions on Pattern analysis and machine intelligence 13 (9). pp. 891-906.  */
 class SeparableSteerableFilter {
     std::vector<cv::Mat> fSepX,fSepY;
     std::vector<cv::Mat> hilbertX,hilbertY;
@@ -108,8 +109,7 @@ private :
     {
         return 0.3975*y*(7.189+y*y*(y*y-7.501))*exp(-(x*x+y*y));
     }
-    
-	
+
 
 public :
     SeparableSteerableFilter(int n,int height=9,double step=0.67);
@@ -132,10 +132,10 @@ public :
 
     cv::Mat FilterHilbert(cv::Mat,double angle);
     std::vector<cv::Mat> GetFilterXY(double );
-	std::vector<cv::Mat> GetFilterHilbertXY(double);
+    std::vector<cv::Mat> GetFilterHilbertXY(double);
     double InterpolationFunction(int, double);
-	double InterpolationFunctionHilbert(int, double);
-	void     EstimateL0L1(int nbTap,int);
+    double InterpolationFunctionHilbert(int, double);
+    void     EstimateL0L1(int nbTap,int);
     std::vector<cv::Mat> LocalOrientation(cv::Mat );
 
     void DisplayFilter();
@@ -162,14 +162,13 @@ void DisplayImage(Mat x,string s)
 	Mat uc;
 	x.convertTo(uc, CV_8U,255/(maxVal[0]-minVal[0]),-255*minVal[0]/(maxVal[0]-minVal[0]));
 	imshow(s, uc);
-	waitKey(); 
-
+	waitKey();
 }
 
 void SeparableSteerableFilter::DisplayFilter()
 {
     ostrstream s;
-    s << "//The design and use of steerable filters. IEEE Transactions on Pattern analysis and machine intelligence 13 (9). pp. 891–906.  \n";
+    s << "//The design and use of steerable filters. IEEE Transactions on Pattern analysis and machine intelligence 13 (9). pp. 891-906.  \n";
     for (int i = 0; i < fSepX.size(); i++)
     {
         s << "//******************  Filter " << i << " ******************\n";
@@ -1009,17 +1008,16 @@ void     SeparableSteerableFilter::EstimateL0L1(int nbTapL0,int nbTapL1)
 
 }
 
-
+bool fileExists(const std::string& filePath) {
+    return std::filesystem::exists(filePath);
+}
 
 int main(int argc, char **argv)
 {
- 
-
-    
-    
     {
 //    Mat mc=imread("f:/lib/einstein.pgm",CV_LOAD_IMAGE_GRAYSCALE),dst1,dst2;
-    Mat mc=imread("f:/lib/opencv/samples/data/lena.jpg",CV_LOAD_IMAGE_GRAYSCALE);
+    // Assert file exist before imread
+    Mat mc=imread("./data/lena.jpg",cv::IMREAD_GRAYSCALE);
 /*    mc = Mat::zeros(512,512,CV_8SC1);
     for (int i = 0; i < 512; i++)
     {
@@ -1040,11 +1038,9 @@ int main(int argc, char **argv)
     SeparableSteerableFilter g(order,9,0.67);
     vector<vector<Mat> > level(6);
     Mat m;
-	g.EstimateL0L1(9,9);
+    g.EstimateL0L1(9,9);
 
-
-
-	g.DisplayFilter();
+    g.DisplayFilter();
     mc.convertTo(m,CV_32F);
     Mat mcH;
     mcH = g.InvFilterH1(g.FilterH1(m))+g.InvFilterL1(g.FilterL1(m));
@@ -1068,12 +1064,12 @@ int main(int argc, char **argv)
     {
         DisplayImage(g.Filter(m,i), format("g2%d",i));
     }
-	vector<Mat> w = g.LocalOrientation(mc);
+    vector<Mat> w = g.LocalOrientation(mc);
 
-	DisplayImage(w[0], "LO");
+    DisplayImage(w[0], "LO");
 
 
-	g.DisplayFilter();
+    g.DisplayFilter();
 
     mc.convertTo(m,CV_32F);
     minMaxIdx(m,&minVal,&maxVal);
@@ -1126,15 +1122,11 @@ int main(int argc, char **argv)
     waitKey();
     }
 
-
-
-
-
     SeparableSteerableFilter g(4,15);
     SeparableSteerableFilter g2(4,11);
     g.DisplayFilter();
 //    Mat mc=imread("f:/lib/opencv/samples/data/detect_blob.png",CV_LOAD_IMAGE_COLOR);
-    Mat mc=imread("f:/lib/opencv/samples/data/lena.jpg",CV_LOAD_IMAGE_COLOR);
+    Mat mc=imread("./data/lena.jpg",cv::IMREAD_COLOR);
     Mat mask=Mat::zeros(mc.size(),CV_8U);
     Rect r(0,0,mask.cols,mask.rows/2);
     mask(r)=255;
